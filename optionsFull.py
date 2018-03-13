@@ -1,3 +1,5 @@
+import random
+import sys
 import os
 import requests
 import bs4 as bs
@@ -21,6 +23,40 @@ def find_date_index(ticker):
         print(optionDateFullList[i][0])
         i +=1
 
+def selection():
+    startNumber = input("\nWhich dates would you like?\n")
+    if (startNumber == "All") or (startNumber == "all"):
+        #find lenght of list
+        #set int x to lenght of list minus 2
+        #for i to int x
+            #perform data scrape
+    else:
+        numberArray = [int(i) for i in startNumber.split()]
+        numberArray.sort()
+        if ((len(numberArray) != len(set(numberArray))) == True):
+            print("\nYou entered a duplicate")
+            print(numberArray)
+            selection()
+        elif (len(numberArray) < 5):
+            print("\nYou didn't enter enough numbers")
+            print(numberArray)
+            selection()
+        elif (len(numberArray) > 5):
+            print("\nYou entered too many numbers")
+            print(numberArray)
+            selection()
+        elif (max(numberArray) > 69):
+            print("\nOne or more of your values is too large")
+            print(numberArray)
+            selection()
+        elif (min(numberArray) < 1):
+            print("\nOne or more of your values is too small")
+            print(numberArray)
+            selection()
+        else:
+            print(numberArray)
+        Draw(n, numberArray)
+selection()
 
 
 def get_option_data():
