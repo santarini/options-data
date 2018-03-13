@@ -33,7 +33,11 @@ def selection(ticker, optionDateFullList,optionDateFullListCount):
     if (startNumber == "All") or (startNumber == "all"):
         i=1
         while i < optionDateFullListCount:
-            get_option_data()
+                dateID = i
+                print("Getting option data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
+                get_option_data(ticker, dateID,optionDateFullList)
+                i +=1
+        print("Done!")
     else:
         numberArray = [int(i) for i in startNumber.split()]
         numberArray.sort()
