@@ -6,7 +6,7 @@ import bs4 as bs
 import csv
 
 def get_tickers():
-    tickers = input("Please enter your tickers (seperated by a space): \n")
+    tickers = input("Please enter your tickerss: \n")
     #create array
     tickers = [str(i) for i in tickers.split()]
     print(tickers)
@@ -69,6 +69,7 @@ def get_option_data(ticker, dateID, optionDateFullList):
                 openInt = row.findAll('td')[6].text
                 strike = row.findAll('td')[8].text
                 writer.writerow({'ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
+    else: print ('Already have ' + 'option_dfs/' + ticker.upper() + '/'+ optionDateFullList[dateID-1][0] + '.csv')
 
 
 get_tickers()
