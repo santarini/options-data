@@ -5,6 +5,16 @@ import requests
 import bs4 as bs
 import csv
 
+def get_tickers():
+    tickers = input("Please enter your tickers (seperated by a space): \n")
+    #create array
+    tickers = [str(i) for i in tickers.split()]
+    print(tickers)
+    for x in tickers:
+        ticker = x
+        find_date_index(ticker)
+    print("Done!")
+
 def find_date_index(ticker):
     response = requests.get('https://www.nasdaq.com/symbol/'+ ticker.lower() +'/option-chain')
     soup = bs.BeautifulSoup(response.text, 'lxml')
@@ -17,53 +27,17 @@ def find_date_index(ticker):
     for x in optionDateList:    
         optionDateFullList.append([x,i])
         i +=1
-    print("\nThese are the available contract dates for that ticker:")
-    i =1
-    for index, x in enumerate(optionDateFullList):
-        print(str(i) +". " + x[0])
-        i += 1
     optionDateFullListCount = len(optionDateFullList)
     selection(ticker, optionDateFullList,optionDateFullListCount)
-
-
-
+    
 
 def selection(ticker, optionDateFullList,optionDateFullListCount):
-    startNumber = input("\nWhich dates would you like?\n")
-    if (startNumber == "All") or (startNumber == "all"):
-        i=1
-        while i < (optionDateFullListCount-2):
-                dateID = i
-                print("Getting option data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
-                get_option_data(ticker, dateID,optionDateFullList)
-                i +=1
-        print("Done!")
-    else:
-        numberArray = [int(i) for i in startNumber.split()]
-        numberArray.sort()
-        if ((len(numberArray) != len(set(numberArray))) == True):
-            print("\nYou entered a duplicate")
-            print(numberArray)
-            selection()
-        elif (len(numberArray) > optionDateFullListCount ):
-            print("\nYou entered too many numbers")
-            print(numberArray)
-            selection()
-##        elif (max(numberArray) > max(optionDateFullList)):
-##            print("\nOne or more of your values is too large")
-##            print(numberArray)
-##            selection()
-        elif (min(numberArray) < 1):
-            print("\nOne or more of your values is too small")
-            print(numberArray)
-            selection()
-        else:
-            for x in numberArray:
-                dateID = x
-                print("Getting option data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
-                get_option_data(ticker, dateID,optionDateFullList)
-            print("Done!")
-
+    i=1
+    while i < (optionDateFullListCount - 2):
+            dateID = i
+            print("Getting option data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
+            get_option_data(ticker, dateID,optionDateFullList)
+            i +=1
 
 
 def get_option_data(ticker, dateID, optionDateFullList):
@@ -82,7 +56,7 @@ def get_option_data(ticker, dateID, optionDateFullList):
         soup = bs.BeautifulSoup(response.text, 'lxml')
         calltable = soup.findAll('table')[5]
         with open('option_dfs/' + ticker.upper() + '/'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
-            fieldnames = ['Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
+            fieldnames = ['ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator = '\n')
             writer.writeheader()
             for row in calltable.findAll('tr')[1:]:
@@ -94,8 +68,7 @@ def get_option_data(ticker, dateID, optionDateFullList):
                 vol = row.findAll('td')[5].text
                 openInt = row.findAll('td')[6].text
                 strike = row.findAll('td')[8].text
-                writer.writerow({'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
+                writer.writerow({'ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
 
 
-ticker = input("What ticker are you looking for? \n")
-find_date_index(ticker)
+get_tickers()
