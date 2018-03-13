@@ -35,7 +35,6 @@ def selection(ticker, optionDateFullList,optionDateFullListCount):
     i=1
     while i < (optionDateFullListCount - 1):
             dateID = i
-            print("Getting option data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
             get_option_data(ticker, dateID,optionDateFullList)
             i +=1
 
@@ -48,10 +47,9 @@ def get_option_data(ticker, dateID, optionDateFullList):
     #create sub folder in source folder if it doesnt exist yest
     if not os.path.exists('option_dfs/' + ticker.upper()):
         os.makedirs('option_dfs/' + ticker.upper())
-
         
     if not os.path.exists('option_dfs/' + ticker.upper() + '/'+ optionDateFullList[dateID-1][0] + '.csv'):
-        
+        print("Getting option data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
         response = requests.get('https://www.nasdaq.com/symbol/' + ticker + '/option-chain?money=all&dateindex='+ str(dateID-1))
         soup = bs.BeautifulSoup(response.text, 'lxml')
         calltable = soup.findAll('table')[5]
@@ -69,7 +67,7 @@ def get_option_data(ticker, dateID, optionDateFullList):
                 openInt = row.findAll('td')[6].text
                 strike = row.findAll('td')[8].text
                 writer.writerow({'ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
-    else: print ('Already have ' + 'option_dfs/' + ticker.upper() + '/'+ optionDateFullList[dateID-1][0] + '.csv')
+    else: print ('Already have option data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
 
 
 get_tickers()
