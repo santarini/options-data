@@ -7,7 +7,7 @@ I've only actually written the script to get Call data. So even though it says "
 # Contents
 
 ###### optiondates.py
-... I've only actually written the script to get Call data. So even though it says "option data" it's actually only Call Data right now. I will eventually write the Put portion of the script.
+⋅⋅⋅You
 
 
 
