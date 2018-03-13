@@ -10,7 +10,7 @@ optiondatestring = optiondatestring.lstrip()
 optiondatestring = optiondatestring.replace(" |  ", ",")
 optionDateList = optiondatestring.split(",")
 optionDateFullList = []
-i = 1
+i = 0
 for x in optionDateList:    
     optionDateFullList.append([x,i])
     i +=1
