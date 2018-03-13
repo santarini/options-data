@@ -5,9 +5,13 @@ import csv
 
 response = requests.get('https://www.nasdaq.com/symbol/aapl/option-chain')
 soup = bs.BeautifulSoup(response.text, 'lxml')
-optiondatecount = soup.find("div", {"id": "OptionsChain-dates"}).text
-optiondatecount = optiondatecount.lstrip()
-print(optiondatecount)
-optiondates = optiondatecount.replace(" |  ", ",")
-myList = optiondates.split(",")
-print(myList)
+optiondatestring = soup.find("div", {"id": "OptionsChain-dates"}).text
+optiondatestring = optiondatestring.lstrip()
+optiondatestring = optiondatestring.replace(" |  ", ",")
+optionDateList = optiondatestring.split(",")
+optionDateFullList = []
+i = 1
+for x in optionDateList:    
+    optionDateFullList.append([x,i])
+    i +=1
+print(optionDateFullList)
