@@ -33,7 +33,7 @@ def find_date_index(ticker):
 
 def selection(ticker, optionDateFullList,optionDateFullListCount):
     i=1
-    while i < (optionDateFullListCount - 2):
+    while i < (optionDateFullListCount - 1):
             dateID = i
             print("Getting option data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
             get_option_data(ticker, dateID,optionDateFullList)
