@@ -3,10 +3,7 @@ import requests
 import bs4 as bs
 import csv
 
-ticker = input("What ticker are you looking for?")
-
-
-def find_date_index():
+def find_date_index(ticker):
     response = requests.get('https://www.nasdaq.com/symbol/'+ ticker.lower() +'/option-chain')
     soup = bs.BeautifulSoup(response.text, 'lxml')
     optiondatestring = soup.find("div", {"id": "OptionsChain-dates"}).text
@@ -18,7 +15,10 @@ def find_date_index():
     for x in optionDateList:    
         optionDateFullList.append([x,i])
         i +=1
-    print(optionDateFullList)
+    for x in optionDateFullList:
+        print(optionDateFullList[x][0])
+
+
 
 def get_option_data():
     #create source folder if it doesnt exist yet
@@ -48,3 +48,7 @@ def get_option_data():
                 vol = row.findAll('td')[5].text
                 openInt = row.findAll('td')[6].text
                 writer.writerow({'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt})
+
+
+ticker = input("What ticker are you looking for? \n")
+find_date_index(ticker)
