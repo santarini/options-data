@@ -17,19 +17,23 @@ def find_date_index(ticker):
     for x in optionDateList:    
         optionDateFullList.append([x,i])
         i +=1
-    i = 1
     print("\nThese are the available contract dates for that ticker:")
-    for y in optionDateFullList:
-        print(optionDateFullList[i][0])
-        i +=1
+    i =1
+    for index, x in enumerate(optionDateFullList):
+        print(str(i) +". " + x[0])
+        i += 1
+    optionDateFullListCount = len(optionDateFullList)
+    selection(ticker, optionDateFullList,optionDateFullListCount)
 
-def selection():
+
+
+
+def selection(ticker, optionDateFullList,optionDateFullListCount):
     startNumber = input("\nWhich dates would you like?\n")
     if (startNumber == "All") or (startNumber == "all"):
-        #find lenght of list
-        #set int x to lenght of list minus 2
-        #for i to int x
-            #perform data scrape
+        i=1
+        while i < optionDateFullListCount:
+            get_option_data()
     else:
         numberArray = [int(i) for i in startNumber.split()]
         numberArray.sort()
@@ -37,29 +41,28 @@ def selection():
             print("\nYou entered a duplicate")
             print(numberArray)
             selection()
-        elif (len(numberArray) < 5):
-            print("\nYou didn't enter enough numbers")
-            print(numberArray)
-            selection()
-        elif (len(numberArray) > 5):
+        elif (len(numberArray) > optionDateFullListCount ):
             print("\nYou entered too many numbers")
             print(numberArray)
             selection()
-        elif (max(numberArray) > 69):
-            print("\nOne or more of your values is too large")
-            print(numberArray)
-            selection()
+##        elif (max(numberArray) > max(optionDateFullList)):
+##            print("\nOne or more of your values is too large")
+##            print(numberArray)
+##            selection()
         elif (min(numberArray) < 1):
             print("\nOne or more of your values is too small")
             print(numberArray)
             selection()
         else:
             print(numberArray)
-        Draw(n, numberArray)
-selection()
+            for x in numberArray:
+                dateID = x
+                print("Getting option data for "+ticker + optionDateFullList[dateID][1])
+                get_option_data(ticker, dateID)
 
 
-def get_option_data():
+
+def get_option_data(ticker, dateID):
     #create source folder if it doesnt exist yet
     if not os.path.exists('option_dfs'):
         os.makedirs('option_dfs')
@@ -71,7 +74,7 @@ def get_option_data():
         
     if not os.path.exists('option_dfs/' + ticker.upper() + '/'+ ticker + '.csv'):
         
-        response = requests.get('https://www.nasdaq.com/symbol/' + ticker + '/option-chain?money=all&dateindex=6')
+        response = requests.get('https://www.nasdaq.com/symbol/' + ticker + '/option-chain?money=all&dateindex='+ str(dateID))
         soup = bs.BeautifulSoup(response.text, 'lxml')
         calltable = soup.findAll('table')[5]
         with open('option_dfs/' + ticker.upper() + '/'+ ticker + '.csv', 'a') as csvfile:
