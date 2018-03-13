@@ -16,6 +16,7 @@ def find_date_index(ticker):
         optionDateFullList.append([x,i])
         i +=1
     i = 1
+    print("\nThese are the available contract dates for that ticker:")
     for y in optionDateFullList:
         print(optionDateFullList[i][0])
         i +=1
