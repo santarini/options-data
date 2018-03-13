@@ -13,7 +13,7 @@ def find_date_index(ticker):
     optiondatestring = optiondatestring.replace(" |  ", ",")
     optionDateList = optiondatestring.split(",")
     optionDateFullList = []
-    i = 0
+    i = 1
     for x in optionDateList:    
         optionDateFullList.append([x,i])
         i +=1
@@ -56,7 +56,7 @@ def selection(ticker, optionDateFullList,optionDateFullListCount):
         else:
             for x in numberArray:
                 dateID = x
-                print("Getting option data for "+ ticker.upper() + " " + optionDateFullList[dateID][0])
+                print("Getting option data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
                 get_option_data(ticker, dateID,optionDateFullList)
             print("Done!")
 
@@ -72,13 +72,13 @@ def get_option_data(ticker, dateID, optionDateFullList):
         os.makedirs('option_dfs/' + ticker.upper())
 
         
-    if not os.path.exists('option_dfs/' + ticker.upper() + '/'+ optionDateFullList[dateID][0] + '.csv'):
+    if not os.path.exists('option_dfs/' + ticker.upper() + '/'+ optionDateFullList[dateID-1][0] + '.csv'):
         
-        response = requests.get('https://www.nasdaq.com/symbol/' + ticker + '/option-chain?money=all&dateindex='+ str(dateID))
+        response = requests.get('https://www.nasdaq.com/symbol/' + ticker + '/option-chain?money=all&dateindex='+ str(dateID-1))
         soup = bs.BeautifulSoup(response.text, 'lxml')
         calltable = soup.findAll('table')[5]
-        with open('option_dfs/' + ticker.upper() + '/'+ optionDateFullList[dateID][0] + '.csv', 'a') as csvfile:
-            fieldnames = ['Ticker', 'Expiry','Last','Change','Bid','Ask','Vol','Open Interest']
+        with open('option_dfs/' + ticker.upper() + '/'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
+            fieldnames = ['Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator = '\n')
             writer.writeheader()
             for row in calltable.findAll('tr')[1:]:
@@ -89,7 +89,8 @@ def get_option_data(ticker, dateID, optionDateFullList):
                 ask = row.findAll('td')[4].text
                 vol = row.findAll('td')[5].text
                 openInt = row.findAll('td')[6].text
-                writer.writerow({'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt})
+                strike = row.findAll('td')[8].text
+                writer.writerow({'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
 
 
 ticker = input("What ticker are you looking for? \n")
