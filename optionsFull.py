@@ -54,15 +54,15 @@ def selection(ticker, optionDateFullList,optionDateFullListCount):
             print(numberArray)
             selection()
         else:
-            print(numberArray)
             for x in numberArray:
                 dateID = x
-                print("Getting option data for "+ticker + optionDateFullList[dateID][1])
-                get_option_data(ticker, dateID)
+                print("Getting option data for "+ ticker.upper() + " " + optionDateFullList[dateID][0])
+                get_option_data(ticker, dateID,optionDateFullList)
+            print("Done!")
 
 
 
-def get_option_data(ticker, dateID):
+def get_option_data(ticker, dateID, optionDateFullList):
     #create source folder if it doesnt exist yet
     if not os.path.exists('option_dfs'):
         os.makedirs('option_dfs')
@@ -72,12 +72,12 @@ def get_option_data(ticker, dateID):
         os.makedirs('option_dfs/' + ticker.upper())
 
         
-    if not os.path.exists('option_dfs/' + ticker.upper() + '/'+ ticker + '.csv'):
+    if not os.path.exists('option_dfs/' + ticker.upper() + '/'+ optionDateFullList[dateID][0] + '.csv'):
         
         response = requests.get('https://www.nasdaq.com/symbol/' + ticker + '/option-chain?money=all&dateindex='+ str(dateID))
         soup = bs.BeautifulSoup(response.text, 'lxml')
         calltable = soup.findAll('table')[5]
-        with open('option_dfs/' + ticker.upper() + '/'+ ticker + '.csv', 'a') as csvfile:
+        with open('option_dfs/' + ticker.upper() + '/'+ optionDateFullList[dateID][0] + '.csv', 'a') as csvfile:
             fieldnames = ['Ticker', 'Expiry','Last','Change','Bid','Ask','Vol','Open Interest']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator = '\n')
             writer.writeheader()
