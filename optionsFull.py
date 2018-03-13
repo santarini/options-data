@@ -15,8 +15,10 @@ def find_date_index(ticker):
     for x in optionDateList:    
         optionDateFullList.append([x,i])
         i +=1
-    for x in optionDateFullList:
-        print(optionDateFullList[x][0])
+    i = 1
+    for y in optionDateFullList:
+        print(optionDateFullList[i][0])
+        i +=1
 
 
 
