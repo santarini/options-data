@@ -38,7 +38,6 @@ def selection(ticker, optionDateFullList,optionDateFullListCount):
         dateID = i
         choose_optionType(optionType, ticker, dateID, optionDateFullList)
         i +=1
-    print("Done!")
 
 def choose_optionType(optionType, ticker, dateID, optionDateFullList):
     if (optionType == "1") or (optionType == "Calls") or (optionType == "calls") or (optionType == "Call") or (optionType == "call") or (optionType == "c"):
