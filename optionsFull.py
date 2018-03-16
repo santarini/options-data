@@ -61,12 +61,12 @@ def selection(ticker, optionDateFullList,optionDateFullListCount):
             for x in numberArray:
                 dateID = x
                 print("Getting option data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
-                get_option_data(ticker, dateID,optionDateFullList)
+                get_call_data(ticker, dateID,optionDateFullList)
             print("Done!")
 
 
 
-def get_option_data(ticker, dateID, optionDateFullList):
+def get_call_data(ticker, dateID, optionDateFullList):
     #create source folder if it doesnt exist yet
     if not os.path.exists('option_dfs'):
         os.makedirs('option_dfs')
@@ -96,6 +96,37 @@ def get_option_data(ticker, dateID, optionDateFullList):
                 strike = row.findAll('td')[8].text
                 writer.writerow({'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
 
+def get_put_data(ticker, dateID, optionDateFullList):
+    #create source folder if it doesnt exist yet
+    if not os.path.exists('option_dfs'):
+        os.makedirs('option_dfs')
+
+    #create sub folder in source folder if it doesnt exist yest
+    if not os.path.exists('option_dfs/' + ticker.upper()):
+        os.makedirs('option_dfs/' + ticker.upper())
+
+        
+    if not os.path.exists('option_dfs/' + ticker.upper() + '/'+ optionDateFullList[dateID-1][0] + '.csv'):
+        
+        response = requests.get('https://www.nasdaq.com/symbol/' + ticker + '/option-chain?money=all&dateindex='+ str(dateID-1))
+        soup = bs.BeautifulSoup(response.text, 'lxml')
+        puttable = soup.findAll('table')[5]
+        with open('option_dfs/' + ticker.upper() + '/'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
+            fieldnames = ['Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator = '\n')
+            writer.writeheader()
+            for row in puttable.findAll('tr')[1:]:
+                expiry = row.findAll('td')[9].text
+                last = row.findAll('td')[10].text
+                chg = row.findAll('td')[11].text
+                bid = row.findAll('td')[12].text
+                ask = row.findAll('td')[13].text
+                vol = row.findAll('td')[14].text
+                openInt = row.findAll('td')[15].text
+                strike = row.findAll('td')[8].text
+                writer.writerow({'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
+
+                
 
 ticker = input("What ticker are you looking for? \n")
 find_date_index(ticker)
