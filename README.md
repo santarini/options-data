@@ -12,11 +12,11 @@ This was the second step in the algo, it goes to the NASDAQ website figures out 
 
 ###### optionsFull.py
 
-This is the first full working version. It finds call, put or both pricing data for a <u>single</u> ticker at a time.
+This is the first full independent working version. It finds call, put or both pricing data for a <b>single</b> ticker at a time. It also prompts you at every step of the process.
 
 ###### optionsFullMass.py
 
-This is the first full mass working version. Whereas <a href="https://github.com/santarini/options-data/blob/master/optionsFull.py">optionsFull.py</a> finds option data for a single ticker and prompts you ever step of the way, <a href="https://github.com/santarini/options-data/blob/master/optionsFullMass.py">optionsFullMass.py</a> can take in several tickers and gives you the option data for all available dates. It was intended to be used for a greater number of tickers.
+This is the first full mass independent working version. Whereas <a href="https://github.com/santarini/options-data/blob/master/optionsFull.py">optionsFull.py</a> finds option data for a single ticker and prompts you ever step of the way, <a href="https://github.com/santarini/options-data/blob/master/optionsFullMass.py">optionsFullMass.py</a> can take in several tickers and gives you the option data for all available dates. It was intended to be used for a greater number of tickers.
 
 ###### optionsdata.py
 
