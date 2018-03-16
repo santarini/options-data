@@ -2,7 +2,7 @@
 
 This is a repo of Python 3 programs that use requests and beautiful soup to navigate to the NASDAQ website and scrape option data into CSVs.
 
-Both <a href="https://github.com/santarini/options-data/blob/master/optionsFull.py">optionsFull.py</a> and <a href="https://github.com/santarini/options-data/blob/master/optionsFullMass.py">optionsFullMass.py.py</a> are independent fully working programs. 
+Both <a href="https://github.com/santarini/options-data/blob/master/optionsFull.py">optionsFull.py</a> and <a href="https://github.com/santarini/options-data/blob/master/optionsFullMass.py">optionsFullMass.py</a> are independent fully working programs. 
 
 # Contents
 
