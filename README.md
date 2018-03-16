@@ -22,6 +22,14 @@ This is the first full mass working version. Whereas <a href="https://github.com
 
 This was the base function that I started with. It navigates to the NASDAQ website and pulls call data from AAPL using Requests and BS4.
 
+## Prerequisitese
+
+Python
+
+Beautiful Soup
+
+CSV reader
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE.md file for details
