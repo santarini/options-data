@@ -8,7 +8,7 @@ Both <a href="https://github.com/santarini/options-data/blob/master/optionsFull.
 
 ###### optiondates.py
 
-This was the second step in the algo, it goes to the NASDAQ website figures out what expiry dates are available for option contracts of your specified ticker.
+This was the second step in the algo, it goes to the NASDAQ website figures out what expiry dates are available for option contracts of your specified ticker, and reports back to you.
 
 ###### optionsFull.py
 
