@@ -11,6 +11,7 @@ def find_date_index(ticker, optionType):
     optiondatestring = soup.find("div", {"id": "OptionsChain-dates"}).text
     optiondatestring = optiondatestring.lstrip()
     optiondatestring = optiondatestring.replace(" |  ", ",")
+    optiondatestring = optiondatestring.replace(" ", "_20")
     optionDateList = optiondatestring.split(",")
     optionDateFullList = []
     i = 1
