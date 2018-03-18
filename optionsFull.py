@@ -81,13 +81,16 @@ def choose_optionType(optionType, ticker, dateID, optionDateFullList):
 def get_call_data(ticker, dateID, optionDateFullList):
     #create source folder if it doesnt exist yet
     if not os.path.exists('option_dfs'):
+        print("Creating Option DFS Folder")
         os.makedirs('option_dfs')
 
-    #create sub folder in source folder if it doesnt exist yest
+    #create sub folder in source folder if it doesnt exist yet
     if not os.path.exists('option_dfs/' + ticker.upper()):
+        print("Creating " + ticker.upper() + " Folder")
         os.makedirs('option_dfs/' + ticker.upper())
 
     if not os.path.exists('option_dfs/' + ticker.upper() + '/calls'):
+        print("Creating " + ticker.upper() + " Calls Folder")
         os.makedirs('option_dfs/' + ticker.upper()+ '/calls')
 
     if not os.path.exists('option_dfs/' + ticker.upper() + '/calls/'+ optionDateFullList[dateID-1][0] + '.csv'):
@@ -115,14 +118,16 @@ def get_call_data(ticker, dateID, optionDateFullList):
 def get_put_data(ticker, dateID, optionDateFullList):
     #create source folder if it doesnt exist yet
     if not os.path.exists('option_dfs'):
+        print("Creating Option DFS Folder")
         os.makedirs('option_dfs')
 
     #create sub folder in source folder if it doesnt exist yest
     if not os.path.exists('option_dfs/' + ticker.upper()):
+        print("Creating " + ticker.upper() + " Folder")
         os.makedirs('option_dfs/' + ticker.upper())
 
-        
     if not os.path.exists('option_dfs/' + ticker.upper() + '/puts'):
+        print("Creating " + ticker.upper() + " Puts Folder")
         os.makedirs('option_dfs/' + ticker.upper()+ '/puts')
 
     if not os.path.exists('option_dfs/' + ticker.upper() + '/puts/'+ optionDateFullList[dateID-1][0] + '.csv'):
