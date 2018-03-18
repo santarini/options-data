@@ -6,17 +6,20 @@ import bs4 as bs
 import csv
 
 def find_date_index(ticker):
-    response = requests.get('https://www.nasdaq.com/symbol/'+ ticker.lower() +'/option-chain')
+    response = requests.get('https://www.nasdaq.com/symbol/aapl/option-chain')
     soup = bs.BeautifulSoup(response.text, 'lxml')
     optiondatestring = soup.find("div", {"id": "OptionsChain-dates"}).text
     optiondatestring = optiondatestring.lstrip()
     optiondatestring = optiondatestring.replace(" |  ", ",")
+    optiondatestring = optiondatestring.replace(" ", "_20")
     optionDateList = optiondatestring.split(",")
     optionDateFullList = []
-    i = 1
+    i = 0
     for x in optionDateList:    
         optionDateFullList.append([x,i])
         i +=1
+    optionDateFullList.pop()
+    optionDateFullList.pop()
     print("\nThese are the available contract dates for that ticker:")
     i =1
     for index, x in enumerate(optionDateFullList):
