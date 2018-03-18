@@ -18,6 +18,8 @@ def find_date_index(ticker, optionType):
     for x in optionDateList:    
         optionDateFullList.append([x,i])
         i +=1
+    optionDateFullList.pop()
+    optionDateFullList.pop()
     optionDateFullListCount = len(optionDateFullList)
     selection(ticker, optionType, optionDateFullList,optionDateFullListCount)
     
