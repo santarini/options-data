@@ -15,5 +15,7 @@ i = 0
 for x in optionDateList:    
     optionDateFullList.append([x,i])
     i +=1
+optionDateFullList.pop()
+optionDateFullList.pop()
 print(optionDateList)
 print(optionDateFullList)
