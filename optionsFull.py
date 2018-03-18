@@ -6,7 +6,7 @@ import bs4 as bs
 import csv
 
 def find_date_index(ticker):
-    response = requests.get('https://www.nasdaq.com/symbol/aapl/option-chain')
+    response = requests.get('https://www.nasdaq.com/symbol/' + ticker +'/option-chain')
     soup = bs.BeautifulSoup(response.text, 'lxml')
     optiondatestring = soup.find("div", {"id": "OptionsChain-dates"}).text
     optiondatestring = optiondatestring.lstrip()
