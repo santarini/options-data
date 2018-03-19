@@ -1,4 +1,5 @@
-Sub OptionDataImport()
+Sub countChildFolders()
+
     Dim Rng As Range
 
     Dim oFSO As Object
@@ -15,54 +16,41 @@ Sub OptionDataImport()
         Set Rng = Selection
     Next
     
-
-End Sub
-Sub childfolder()
-Dim Rng As Range
-Dim TrtRng As Range
-
-
-Dim oFSO As Object
-Dim folder As Object
-Dim subfolders As Object
-Dim PathCount As Integer
-Dim FileCount As Integer
-Dim i As Integer
-Dim FolderPath As String
-Dim PathCountCondition As String
-
-Set Rng = Range("A1")
-
-Rng.Select
-Range(Selection, Selection.End(xlDown)).Select
-PathCount = Selection.Rows.count
-For i = 1 To PathCount
-    Rng.Select
+    Set Rng = Range("A1")
     Set TrgtRng = Rng.Offset(0, 1)
+    Rng.Select
+    Range(Selection, Selection.End(xlDown)).Select
+    PathCount = Selection.Rows.Count
+    For i = 1 To PathCount
+    Rng.Select
     FolderPath = Rng.Value
-    PathCountCondition = FolderPath & "\calls\*.csv"
-    Filename = Dir(PathCountCondition)
-    Do While Filename <> ""
-        Filename = Dir()
-        TrgtRng.Value = Filename
-        TrgtRng.Offset(0, 1).Select
-        Set TrgtRng = ActiveCell
-    Loop
-    Set Rng = Rng.Offset(1, 0)
-Next i
+    Set folder = oFSO.GetFolder(FolderPath)
+    Set subfolders = folder.subfolders
+        For Each Subfolder In folder.subfolders
+            TrgtRng.Value = Subfolder
+            Set TrgtRng = TrgtRng.Offset(1, 0)
+        Next
+        Set Rng = Rng.Offset(1, 0)
+    Next i
     
+    Set Rng = Range("B1")
 
-
-
+    Rng.Select
+    Range(Selection, Selection.End(xlDown)).Select
+    PathCount = Selection.Rows.Count
+    For i = 1 To PathCount
+        Rng.Select
+        Set TrgtRng = Rng.Offset(0, 1)
+        FolderPath = Rng.Value
+        PathCountCondition = FolderPath & "\*.csv"
+        Filename = Dir(PathCountCondition)
+        Do While Filename <> ""
+            Filename = Dir()
+            TrgtRng.Value = Filename
+            TrgtRng.Offset(0, 1).Select
+            Set TrgtRng = ActiveCell
+        Loop
+        Set Rng = Rng.Offset(1, 0)
+    Next i
+    
 End Sub
-Sub countChildFolders()
-
-End Sub
-
-'list child call folder
-
-'list child put folder
-
-'for each child CSV file
-'create sheet
-'import into Excel
