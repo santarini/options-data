@@ -34,7 +34,7 @@ def selection(ticker, optionDateFullList,optionDateFullListCount):
     if (startNumber == "All") or (startNumber == "all"):
         optionType = input("\nWhat type of options would you like?\n\n1.) Calls\n2.) Puts\n3.) Both\n")
         i=1
-        while i < optionDateFullListCount:
+        while i <= optionDateFullListCount:
                 dateID = i
                 print("Getting option data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
                 choose_optionType(optionType, ticker, dateID,optionDateFullList)
