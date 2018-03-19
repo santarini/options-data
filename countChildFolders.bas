@@ -53,4 +53,22 @@ Sub countChildFolders()
         Set Rng = Rng.Offset(1, 0)
     Next i
     
+    Columns(1).EntireColumn.Delete
+    
+End Sub
+Sub pickles()
+
+Dim Rng As Range, cell As Range, TrtRng As Rng
+Dim FilePath As String
+
+Set Rng = Range("A1")
+Rng.Offset(0, 1).Select
+Range(Selection, Selection.End(xlRight)).Select
+Set TrgtRng = Selection
+
+    For Each cell In TrgtRng
+    'define file path
+    Next
+
+
 End Sub
