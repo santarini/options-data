@@ -58,7 +58,7 @@ def get_call_data(ticker, dateID, optionDateFullList):
         print("Creating " + ticker.upper() + " Calls Folder")
         os.makedirs('option_dfs/' + ticker.upper()+ '/calls')
 
-    if not os.path.exists('option_dfs/' + ticker.upper() + '/calls/'+ optionDateFullList[dateID-1][0] + '.csv'):
+    if not os.path.exists('option_dfs/' + ticker.upper() + '/calls/'+ ticker.upper()+'_call_'+ optionDateFullList[dateID-1][0] + '.csv'):
         print("Getting Call data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
         response = requests.get('https://www.nasdaq.com/symbol/' + ticker + '/option-chain?money=all&dateindex='+ str(dateID-1))
         soup = bs.BeautifulSoup(response.text, 'lxml')
@@ -95,7 +95,7 @@ def get_put_data(ticker, dateID, optionDateFullList):
         print("Creating " + ticker.upper() + " Puts Folder")
         os.makedirs('option_dfs/' + ticker.upper()+ '/puts')
 
-    if not os.path.exists('option_dfs/' + ticker.upper() + '/puts/'+ optionDateFullList[dateID-1][0] + '.csv'):
+    if not os.path.exists('option_dfs/' + ticker.upper() + '/puts/'+ ticker.upper()+'_put_'+ optionDateFullList[dateID-1][0] + '.csv'):
         print("Getting Put data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
         response = requests.get('https://www.nasdaq.com/symbol/' + ticker + '/option-chain?money=all&dateindex='+ str(dateID-1))
         soup = bs.BeautifulSoup(response.text, 'lxml')
@@ -151,7 +151,7 @@ def get_call_and_put_data(ticker, dateID, optionDateFullList):
         print("Creating " + ticker.upper() + " Puts Folder")
         os.makedirs('option_dfs/' + ticker.upper()+ '/puts')
 
-    if not os.path.exists('option_dfs/' + ticker.upper() + '/calls/'+ optionDateFullList[dateID-1][0] + '.csv'):
+    if not os.path.exists('option_dfs/' + ticker.upper() + '/calls/'+ ticker.upper()+'_call_'+ optionDateFullList[dateID-1][0] + '.csv'):
         print("Getting Call data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
         with open('option_dfs/' + ticker.upper() + '/calls/'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
             fieldnames = ['Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
@@ -169,7 +169,7 @@ def get_call_and_put_data(ticker, dateID, optionDateFullList):
                 writer.writerow({'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
     else: print ('Already have call data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
 
-    if not os.path.exists('option_dfs/' + ticker.upper() + '/puts/'+ optionDateFullList[dateID-1][0] + '.csv'):
+    if not os.path.exists('option_dfs/' + ticker.upper() + '/puts/'+ ticker.upper()+'_put_'+ optionDateFullList[dateID-1][0] + '.csv'):
         print("Getting Put data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
         with open('option_dfs/' + ticker.upper() + '/puts/'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
             fieldnames = ['Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
@@ -191,9 +191,9 @@ def get_call_and_put_data(ticker, dateID, optionDateFullList):
 
 
 optionType = input("\nWhat type of options would you like?\n\n1.) Calls\n2.) Puts\n3.) Both\n")
-with open("sandp500.csv") as csvfile:
+with open("morningstarSandP.csv") as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
-        ticker = (row['ticker'])
+        ticker = (row['Ticker'])
         find_date_index(ticker, optionType)
     print("Done!")
