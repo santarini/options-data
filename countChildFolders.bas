@@ -61,11 +61,13 @@ Sub pickles()
 Dim MainWB As Workbook, WB As Workbook
 Dim FileName As String
 
-Dim Rng As Range, cell As Range, TrtRng As Range
-Dim FilePath As String
-
-Dim Ticker As String
+Dim Rng As Range, colCell As Range, TrgtRowRng As Range, TrgtColumnRng As Range, rowCell As Range
+Dim FilePath As String, Ticker As String, ContractID As String
 Dim DateExp As Date
+
+Dim Sht As Worksheet
+Dim WorksheetExists As Boolean
+
 
 
 Set MainWB = ActiveWorkbook
@@ -73,27 +75,57 @@ Set MainWB = ActiveWorkbook
 Set Rng = Range("A1")
 Rng.Offset(0, 1).Select
 Range(Selection, Selection.End(xlToRight)).Select
-Set TrgtRng = Selection
+Set TrgtRowRng = Selection
 
-    For Each cell In TrgtRng
-        FilePath = Rng & "\" & cell
+Rng.Offset(0, 1).Select
+Range(Selection, Selection.End(xlDown)).Select
+Set TrgtColumnRng = Selection
+
+For Each colCell In TrgtColumnRng
+    For Each rowCell In TrgtRowRng
+        FilePath = Rng & "\" & rowCell
         Set WB = Workbooks.Open(FilePath)
         Ticker = Range("B2")
         DateExp = Range("C2")
-        Cheese = Ticker & "_" & Format(DateExp, "mmm_yyyy")
-        MsgBox Cheese
-        'if sheet with code name does not exist in MainWB
-            'create sheet with code name in MainWB
-            'copy data from WB
-            'paste data into code named sheet in MainWB
-            'close document WB
+        ContractID = Ticker & "_" & Format(DateExp, "mmm_yyyy")
         
-        'if sheet with code name does exist in MainWB
-            'activate sheet with code name in MainWB
+        'check if worksheets exists
+        
+        WorksheetExists = False
+        
+        MainWB.Activate
+        For Each Sht In MainWB.Worksheets
+            If Sht.Name = ContractID Then
+                WorksheetExists = True
+            End If
+        Next Sht
+        
+        
+        If (WorksheetExists = False) Then
+            WB.Activate
+            Range("A1").Select
+            Range(Selection, Selection.End(xlToRight)).Select
+            Range(Selection, Selection.End(xlDown)).Select
+            Selection.Copy
+            MainWB.Activate
+            Sheets.Add.Name = ContractID
+            Range("A1").Select
+            ActiveSheet.Paste
+            Range("A1").Select
+        End If
+        
+
+        If (WorksheetExists = True) Then
+            MainWB.Activate
+            Worksheets(ContractID).Activate
             'copy data from WB
             'paste data into code named sheet in MainWB
             'close document WB
+        End If
+        WB.Close
     Next
-
+Next
+    
+    
 
 End Sub
