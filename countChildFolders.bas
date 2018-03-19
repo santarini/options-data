@@ -80,10 +80,8 @@ Set TrgtRng = Selection
         Set WB = Workbooks.Open(FilePath)
         Ticker = Range("B2")
         DateExp = Range("C2")
-        MsgBox Ticker
-        MsgBox DateExp
-        'generate code name based off  of ticker and expiry
-        
+        Cheese = Ticker & "_" & Format(DateExp, "mmm_yyyy")
+        MsgBox Cheese
         'if sheet with code name does not exist in MainWB
             'create sheet with code name in MainWB
             'copy data from WB
@@ -99,4 +97,3 @@ Set TrgtRng = Selection
 
 
 End Sub
-
