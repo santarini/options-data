@@ -1,56 +1,65 @@
-Sub countChildFolders()
+Sub cheese()
 
-    Dim Rng As Range
+Dim MainWB As Workbook
+Dim FileNumber As Integer
 
-    Dim oFSO As Object
-    Dim folder As Object
-    Dim subfolders As Object
+
+Set MainWB = ActiveWorkbook
+MainWB.Sheets.Add.Name = "PathSet"
+
+'get paths
+
+Set Rng = Range("C1")
+Rng.Select
+Range(Selection, Selection.End(xlDown)).Select
+RowsCount = Selection.Rows.Count
+
+'
+For FileNumber = 1 To RowsCount 'you can change count to a constant for sample runs
     
-    Set Rng = Range("A1")
-    Set oFSO = CreateObject("Scripting.FileSystemObject")
-    Set folder = oFSO.GetFolder("C:\Users\santa\Desktop\option_dfs")
-    Set subfolders = folder.subfolders
-    For Each Subfolder In folder.subfolders
-        Rng.Value = Subfolder
-        Rng.Offset(1, 0).Select
-        Set Rng = Selection
-    Next
+    'open the file
     
-    Set Rng = Range("A1")
-    Set TrgtRng = Rng.Offset(0, 1)
-    Rng.Select
+    Filename = FolderPath & "\" & Rng
+    
+    Set WB = Workbooks.Open(Filename)
+    
+    'copy its contents
+    
+    WB.Activate
+    Range("A1").Select
+    Range(Selection, Selection.End(xlToRight)).Select
     Range(Selection, Selection.End(xlDown)).Select
-    PathCount = Selection.Rows.Count
-    For i = 1 To PathCount
-    Rng.Select
-    FolderPath = Rng.Value
-    Set folder = oFSO.GetFolder(FolderPath)
-    Set subfolders = folder.subfolders
-        For Each Subfolder In folder.subfolders
-            TrgtRng.Value = Subfolder
-            Set TrgtRng = TrgtRng.Offset(1, 0)
-        Next
-        Set Rng = Rng.Offset(1, 0)
-    Next i
-    
-    Set Rng = Range("B1")
+    Selection.Copy
 
-    Rng.Select
-    Range(Selection, Selection.End(xlDown)).Select
-    PathCount = Selection.Rows.Count
-    For i = 1 To PathCount
-        Rng.Select
-        Set TrgtRng = Rng.Offset(0, 1)
-        FolderPath = Rng.Value
-        PathCountCondition = FolderPath & "\*.csv"
-        Filename = Dir(PathCountCondition)
-        Do While Filename <> ""
-            Filename = Dir()
-            TrgtRng.Value = Filename
-            TrgtRng.Offset(0, 1).Select
-            Set TrgtRng = ActiveCell
-        Loop
-        Set Rng = Rng.Offset(1, 0)
-    Next i
+    'create new sheet, and paste it into the main workbook
     
+    MainWB.Activate
+    RngNoPath = Left(Rng, Len(Rng) - 4)
+    MainWB.Sheets.Add.Name = RngNoPath
+    Range("A1").Select
+    ActiveSheet.Paste
+    Selection.Columns.AutoFit
+    Range("A1").Select
+    
+    'close file
+    WB.Close
+    
+    Call orderDataForGraphing
+    Call manipulateData
+    
+    'POPULATE SUMMARY PAGE HERE
+    Call populateSummary(SummaryRng)
+    Worksheets("Summary").Activate
+    SummaryRng.Offset(1, 0).Select
+    Set SummaryRng = Selection
+    
+    'Worksheets("PathSet").Activate
+    
+    Worksheets("PathSet").Activate
+    Rng.Offset(1, 0).Select
+    Set Rng = ActiveCell
+    
+Next FileNumber
+
+
 End Sub
