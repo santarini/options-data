@@ -37,7 +37,7 @@ def find_date_index(ticker):
 def selection(ticker, optionDateFullList,optionDateFullListCount):
     i=1
     optionType = input("\nWhat type of options would you like?\n\n1.) Calls\n2.) Puts\n3.) Both\n")
-    while i < (optionDateFullListCount - 1):
+    while i < (optionDateFullListCount):
         dateID = i
         choose_optionType(optionType, ticker, dateID, optionDateFullList)
         i +=1
