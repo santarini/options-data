@@ -6,6 +6,8 @@ Sub countChildFolders()
     Dim folder As Object
     Dim subfolders As Object
     
+    Sheets.Add.Name = "PathSet"
+    
     Set Rng = Range("A1")
     Set oFSO = CreateObject("Scripting.FileSystemObject")
     Set folder = oFSO.GetFolder("C:\Users\m4k04\Desktop\option_dfs")
@@ -68,22 +70,24 @@ Dim DateExp As Date
 Dim Sht As Worksheet
 Dim WorksheetExists As Boolean
 
-
+Application.DisplayAlerts = False
 
 Set MainWB = ActiveWorkbook
 
-Set Rng = Range("A1")
-Rng.Offset(0, 1).Select
-Range(Selection, Selection.End(xlToRight)).Select
-Set TrgtRowRng = Selection
-
-Rng.Offset(0, 1).Select
+Worksheets("PathSet").Activate
+Set colCell = Range("A1")
+colCell.Select
 Range(Selection, Selection.End(xlDown)).Select
 Set TrgtColumnRng = Selection
 
 For Each colCell In TrgtColumnRng
+    Worksheets("PathSet").Activate
+
+    colCell.Offset(0, 1).Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    Set TrgtRowRng = Selection
     For Each rowCell In TrgtRowRng
-        FilePath = Rng & "\" & rowCell
+        FilePath = colCell & "\" & rowCell
         Set WB = Workbooks.Open(FilePath)
         Ticker = Range("B2")
         DateExp = Range("C2")
@@ -111,6 +115,7 @@ For Each colCell In TrgtColumnRng
             Sheets.Add.Name = ContractID
             Range("A1").Select
             ActiveSheet.Paste
+            Application.CutCopyMode = False
             Range("A1").Select
         End If
         
@@ -125,6 +130,7 @@ For Each colCell In TrgtColumnRng
             Worksheets(ContractID).Activate
             Range("K1").Select
             ActiveSheet.Paste
+            Application.CutCopyMode = False
             Range("A1").Select
         End If
         WB.Close
