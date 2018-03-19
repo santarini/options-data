@@ -116,11 +116,16 @@ For Each colCell In TrgtColumnRng
         
 
         If (WorksheetExists = True) Then
+            WB.Activate
+            Range("A1").Select
+            Range(Selection, Selection.End(xlToRight)).Select
+            Range(Selection, Selection.End(xlDown)).Select
+            Selection.Copy
             MainWB.Activate
             Worksheets(ContractID).Activate
-            'copy data from WB
-            'paste data into code named sheet in MainWB
-            'close document WB
+            Range("K1").Select
+            ActiveSheet.Paste
+            Range("A1").Select
         End If
         WB.Close
     Next
@@ -129,3 +134,4 @@ Next
     
 
 End Sub
+
