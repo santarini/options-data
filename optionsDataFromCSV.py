@@ -26,7 +26,7 @@ def find_date_index(ticker, optionType):
 
 def selection(ticker, optionType, optionDateFullList,optionDateFullListCount):
     i=1
-    while i < (optionDateFullListCount - 1):
+    while i < (optionDateFullListCount):
         dateID = i
         choose_optionType(optionType, ticker, dateID, optionDateFullList)
         i +=1
