@@ -63,7 +63,7 @@ def get_call_data(ticker, dateID, optionDateFullList):
         response = requests.get('https://www.nasdaq.com/symbol/' + ticker + '/option-chain?money=all&dateindex='+ str(dateID-1))
         soup = bs.BeautifulSoup(response.text, 'lxml')
         calltable = soup.findAll('table')[5]
-        with open('option_dfs/' + ticker.upper() + '/calls/'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
+        with open('option_dfs/' + ticker.upper() + '/calls/'+ ticker.upper()+'_call_'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
             fieldnames = ['Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator = '\n')
             writer.writeheader()
@@ -100,7 +100,7 @@ def get_put_data(ticker, dateID, optionDateFullList):
         response = requests.get('https://www.nasdaq.com/symbol/' + ticker + '/option-chain?money=all&dateindex='+ str(dateID-1))
         soup = bs.BeautifulSoup(response.text, 'lxml')
         puttable = soup.findAll('table')[5]
-        with open('option_dfs/' + ticker.upper() + '/puts/'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
+        with open('option_dfs/' + ticker.upper() + '/puts/'+ ticker.upper()+'_put_'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
             fieldnames = ['Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator = '\n')
             writer.writeheader()
@@ -118,7 +118,7 @@ def get_put_data(ticker, dateID, optionDateFullList):
 
 def get_call_and_put_data(ticker, dateID, optionDateFullList):
 
-    if not os.path.exists('option_dfs/' + ticker.upper() + '/calls/'+ optionDateFullList[dateID-1][0] + '.csv') or os.path.exists('option_dfs/' + ticker.upper() + '/puts/'+ optionDateFullList[dateID-1][0] + '.csv'):
+    if not os.path.exists('option_dfs/' + ticker.upper() + '/calls/'+ ticker.upper()+'_call_'+ optionDateFullList[dateID-1][0] + '.csv') or os.path.exists('option_dfs/' + ticker.upper() + '/puts/'+ ticker.upper()+'_put_'+ optionDateFullList[dateID-1][0] + '.csv'):
         response = requests.get('https://www.nasdaq.com/symbol/' + ticker + '/option-chain?money=all&dateindex='+ str(dateID-1))
         soup = bs.BeautifulSoup(response.text, 'lxml')
         callputtable = soup.findAll('table')[5]
@@ -153,7 +153,7 @@ def get_call_and_put_data(ticker, dateID, optionDateFullList):
 
     if not os.path.exists('option_dfs/' + ticker.upper() + '/calls/'+ ticker.upper()+'_call_'+ optionDateFullList[dateID-1][0] + '.csv'):
         print("Getting Call data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
-        with open('option_dfs/' + ticker.upper() + '/calls/'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
+        with open('option_dfs/' + ticker.upper() + '/calls/'+ ticker.upper()+'_call_'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
             fieldnames = ['Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator = '\n')
             writer.writeheader()
@@ -171,7 +171,7 @@ def get_call_and_put_data(ticker, dateID, optionDateFullList):
 
     if not os.path.exists('option_dfs/' + ticker.upper() + '/puts/'+ ticker.upper()+'_put_'+ optionDateFullList[dateID-1][0] + '.csv'):
         print("Getting Put data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
-        with open('option_dfs/' + ticker.upper() + '/puts/'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
+        with open('option_dfs/' + ticker.upper() + '/puts/'+ ticker.upper()+'_put_'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
             fieldnames = ['Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator = '\n')
             writer.writeheader()
