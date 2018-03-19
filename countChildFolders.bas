@@ -58,26 +58,30 @@ Sub countChildFolders()
 End Sub
 Sub pickles()
 
-Dim MainWB As Workbook, WB As WB
+Dim MainWB As Workbook, WB As Workbook
 Dim FileName As String
 
-Dim Rng As Range, cell As Range, TrtRng As Rng
+Dim Rng As Range, cell As Range, TrtRng As Range
 Dim FilePath As String
+
+Dim Ticker As String
+Dim DateExp As Date
 
 
 Set MainWB = ActiveWorkbook
 
 Set Rng = Range("A1")
 Rng.Offset(0, 1).Select
-Range(Selection, Selection.End(xlRight)).Select
+Range(Selection, Selection.End(xlToRight)).Select
 Set TrgtRng = Selection
 
     For Each cell In TrgtRng
         FilePath = Rng & "\" & cell
         Set WB = Workbooks.Open(FilePath)
-        'open WB
-        'get ticker
-        'get expiry
+        Ticker = Range("B2")
+        DateExp = Range("C2")
+        MsgBox Ticker
+        MsgBox DateExp
         'generate code name based off  of ticker and expiry
         
         'if sheet with code name does not exist in MainWB
@@ -95,3 +99,4 @@ Set TrgtRng = Selection
 
 
 End Sub
+
