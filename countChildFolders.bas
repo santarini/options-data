@@ -43,10 +43,10 @@ Sub countChildFolders()
         Set TrgtRng = Rng.Offset(0, 1)
         FolderPath = Rng.Value
         PathCountCondition = FolderPath & "\*.csv"
-        Filename = Dir(PathCountCondition)
-        Do While Filename <> ""
-            Filename = Dir()
-            TrgtRng.Value = Filename
+        FileName = Dir(PathCountCondition)
+        Do While FileName <> ""
+            FileName = Dir()
+            TrgtRng.Value = FileName
             TrgtRng.Offset(0, 1).Select
             Set TrgtRng = ActiveCell
         Loop
@@ -58,8 +58,14 @@ Sub countChildFolders()
 End Sub
 Sub pickles()
 
+Dim MainWB As Workbook, WB As WB
+Dim FileName As String
+
 Dim Rng As Range, cell As Range, TrtRng As Rng
 Dim FilePath As String
+
+
+Set MainWB = ActiveWorkbook
 
 Set Rng = Range("A1")
 Rng.Offset(0, 1).Select
@@ -67,7 +73,24 @@ Range(Selection, Selection.End(xlRight)).Select
 Set TrgtRng = Selection
 
     For Each cell In TrgtRng
-    'define file path
+        FilePath = Rng & "\" & cell
+        Set WB = Workbooks.Open(FilePath)
+        'open WB
+        'get ticker
+        'get expiry
+        'generate code name based off  of ticker and expiry
+        
+        'if sheet with code name does not exist in MainWB
+            'create sheet with code name in MainWB
+            'copy data from WB
+            'paste data into code named sheet in MainWB
+            'close document WB
+        
+        'if sheet with code name does exist in MainWB
+            'activate sheet with code name in MainWB
+            'copy data from WB
+            'paste data into code named sheet in MainWB
+            'close document WB
     Next
 
 
