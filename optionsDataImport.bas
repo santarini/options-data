@@ -135,7 +135,7 @@ For Each colCell In TrgtColumnRng
             Range("L1").Select
             ActiveSheet.Paste
             Application.CutCopyMode = False
-            Call formateDataFrames
+            Call formatDataFrames
             Call pricingData(Ticker)
             Range("A1").Select
         End If
@@ -191,7 +191,6 @@ Function pricingData(Ticker As String)
 
 Application.ScreenUpdating = False
 
-Dim Ticker As String
 Dim latestPrice As Variant
 Dim Json As Object
 Dim Dict As New Dictionary
@@ -200,6 +199,7 @@ Dim Cell As Range
 
 Dict.CompareMode = CompareMethod.TextCompare
 Dict("A") = Ticker
+
 
 'fetch the url
 Set MyRequest = CreateObject("WinHttp.WinHttpRequest.5.1")
@@ -241,5 +241,6 @@ For Each Cell In Rng
 Next Cell
 
 Range("V1") = latestPrice
+Range("w1") = Date()
 
 End Function
