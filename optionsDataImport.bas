@@ -229,7 +229,7 @@ For Each Cell In Rng
     End If
     If Cell.Value > latestPrice Then
         Cell.Select
-        Cell.Offset(0, 1).Resize(1, 9).Select
+        Cell.Offset(0, 1).Resize(1, 10).Select
         With Selection.Interior
             .Pattern = xlSolid
             .PatternColorIndex = xlAutomatic
