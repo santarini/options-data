@@ -247,7 +247,7 @@ For Each Cell In Rng
     End If
 Next Cell
 
-Range("A2").Select
+Range("A1").Select
 Range(Selection, Selection.End(xlDown)).Select
 RowCount = Selection.Rows.Count
 
@@ -257,7 +257,8 @@ Range("V2") = latestPrice
 Range("W2") = Date
 
 Range("V2:W2").Select
-Selection.AutoFill Destination:=Range("V1:W" & RowCount)
+Range("V2:W" & RowCount).Select
+Selection.AutoFill Destination:=Range("V2:W" & RowCount)
 
 End Function
 
