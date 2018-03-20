@@ -137,6 +137,8 @@ For Each colCell In TrgtColumnRng
             Application.CutCopyMode = False
             Call formatDataFrames
             Call pricingData(Ticker)
+            Call PopulateSummaryPageCall
+            Call PopulateSummaryPagePut
             Range("A1").Select
         End If
         WB.Close
@@ -192,9 +194,7 @@ Function formatDataFrames()
 
 
 End Function
-
 Function pricingData(Ticker As String)
-
 
 Application.ScreenUpdating = False
 
@@ -205,10 +205,8 @@ Dim Rng As Range
 Dim Cell As Range
 Dim RowCount As Integer
 
-
 Dict.CompareMode = CompareMethod.TextCompare
 Dict("A") = Ticker
-
 
 'fetch the url
 Set MyRequest = CreateObject("WinHttp.WinHttpRequest.5.1")
@@ -269,6 +267,8 @@ Dim Sht As Worksheet
 
 Set Sht = ActiveSheet
 
+'Type to Epxiry
+
 Range("A2:D2").Select
 Range(Selection, Selection.End(xlDown)).Select
 Selection.Copy
@@ -284,9 +284,7 @@ Else
     ActiveSheet.Paste
 End If
 
-
-
-
+'Strike
 
 Sht.Activate
 Range("K2").Select
@@ -304,8 +302,7 @@ Else
     ActiveSheet.Paste
 End If
 
-
-
+'Last to open interest
 
 Sht.Activate
 Range("E2:J2").Select
@@ -323,8 +320,7 @@ Else
     ActiveSheet.Paste
 End If
 
-
-
+'latest price to date
 
 Sht.Activate
 Range("V2:W2").Select
@@ -349,6 +345,8 @@ Dim Sht As Worksheet
 
 Set Sht = ActiveSheet
 
+'Option Type
+
 Range("U2").Select
 Range(Selection, Selection.End(xlDown)).Select
 Selection.Copy
@@ -364,6 +362,7 @@ Else
     ActiveSheet.Paste
 End If
 
+'Code
 
 Sht.Activate
 Range("T2").Select
@@ -381,6 +380,8 @@ Else
     ActiveSheet.Paste
 End If
 
+'Ticker
+
 Sht.Activate
 Range("S2").Select
 Range(Selection, Selection.End(xlDown)).Select
@@ -396,6 +397,8 @@ Else
     Selection.Offset(1, 0).Select
     ActiveSheet.Paste
 End If
+
+'Expiry
 
 Sht.Activate
 Range("R2").Select
@@ -413,6 +416,8 @@ Else
     ActiveSheet.Paste
 End If
 
+'strike
+
 Sht.Activate
 Range("K2").Select
 Range(Selection, Selection.End(xlDown)).Select
@@ -428,6 +433,8 @@ Else
     Selection.Offset(1, 0).Select
     ActiveSheet.Paste
 End If
+
+'last to open interst
 
 Sht.Activate
 Range("L2:Q2").Select
@@ -445,6 +452,7 @@ Else
     ActiveSheet.Paste
 End If
 
+'price and date
 
 Sht.Activate
 Range("V2:W2").Select
@@ -462,13 +470,7 @@ Else
     ActiveSheet.Paste
 End If
 
-
-
-
-
 End Function
-
-
 Function CreateSummaryPage()
 
 Sheets.Add.Name = "Summary"
