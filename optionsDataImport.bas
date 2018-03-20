@@ -335,10 +335,120 @@ Function PopulateSummaryPagePut()
 
 Dim Sht As Worksheet
 
-Set Sht = ActiveWorksheet
+Set Sht = ActiveSheet
 
+Range("U2").Select
+Range(Selection, Selection.End(xlDown)).Select
+Selection.Copy
 
 Worksheets("Summary").Activate
+Range("A1").Select
+If IsEmpty(Range("A1").Offset(1, 0)) = False Then
+    Selection.End(xlDown).Select
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+Else
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+End If
+
+
+Sht.Activate
+Range("T2").Select
+Range(Selection, Selection.End(xlDown)).Select
+Selection.Copy
+
+Worksheets("Summary").Activate
+Range("B1").Select
+If IsEmpty(Range("B1").Offset(1, 0)) = False Then
+    Selection.End(xlDown).Select
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+Else
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+End If
+
+Sht.Activate
+Range("S2").Select
+Range(Selection, Selection.End(xlDown)).Select
+Selection.Copy
+
+Worksheets("Summary").Activate
+Range("C1").Select
+If IsEmpty(Range("C1").Offset(1, 0)) = False Then
+    Selection.End(xlDown).Select
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+Else
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+End If
+
+Sht.Activate
+Range("R2").Select
+Range(Selection, Selection.End(xlDown)).Select
+Selection.Copy
+
+Worksheets("Summary").Activate
+Range("D1").Select
+If IsEmpty(Range("D1").Offset(1, 0)) = False Then
+    Selection.End(xlDown).Select
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+Else
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+End If
+
+Sht.Activate
+Range("K2").Select
+Range(Selection, Selection.End(xlDown)).Select
+Selection.Copy
+
+Worksheets("Summary").Activate
+Range("E1").Select
+If IsEmpty(Range("E1").Offset(1, 0)) = False Then
+    Selection.End(xlDown).Select
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+Else
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+End If
+
+Sht.Activate
+Range("L2:Q2").Select
+Range(Selection, Selection.End(xlDown)).Select
+Selection.Copy
+
+Worksheets("Summary").Activate
+Range("F1").Select
+If IsEmpty(Range("F1").Offset(1, 0)) = False Then
+    Selection.End(xlDown).Select
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+Else
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+End If
+
+
+Sht.Activate
+Range("V2:W2").Select
+Range(Selection, Selection.End(xlDown)).Select
+Selection.Copy
+
+Worksheets("Summary").Activate
+Range("L1").Select
+If IsEmpty(Range("L1").Offset(1, 0)) = False Then
+    Selection.End(xlDown).Select
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+Else
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+End If
 
 
 
@@ -353,9 +463,7 @@ Sheets.Add.Name = "Summary"
 
 Range("A1") = "Type"
 Range("B1") = "Code"
-Range("A2") = "Holder"
 Range("C1") = "Ticker"
-Range("A2") = "Holder"
 Range("D1") = "Expiry"
 Range("A2") = "Holder"
 Range("E1") = "Strike"
@@ -371,6 +479,5 @@ Range("A1:M1").Select
 Selection.Font.Bold = True
 Range("A2") = "Holder"
 Range("A2").Select
-Selection.AutoFill Destination:=Range("A2:M2"), Type:=xlFillDefault
 
 End Function
