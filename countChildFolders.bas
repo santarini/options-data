@@ -89,8 +89,8 @@ For Each colCell In TrgtColumnRng
     For Each rowCell In TrgtRowRng
         FilePath = colCell & "\" & rowCell
         Set WB = Workbooks.Open(FilePath)
-        Ticker = Range("B2")
-        DateExp = Range("C2")
+        Ticker = Range("C2")
+        DateExp = Range("D2")
         ContractID = Ticker & "_" & Format(DateExp, "mmm_yyyy")
         
         'check if worksheets exists
@@ -128,7 +128,7 @@ For Each colCell In TrgtColumnRng
             Selection.Copy
             MainWB.Activate
             Worksheets(ContractID).Activate
-            Range("K1").Select
+            Range("L1").Select
             ActiveSheet.Paste
             Application.CutCopyMode = False
             Range("A1").Select
