@@ -78,8 +78,8 @@ def get_call_data(ticker, dateID, optionDateFullList):
                 openInt = row.findAll('td')[6].text
                 strike = row.findAll('td')[8].text
                 callAnchorText = row.findAll('a')[0]
-                callCode = re.search('<a href="https://www.nasdaq.com/symbol/aapl/option-chain/(.*)-aapl', str(callAnchorText))
-                writer.writerow({'Type': 'Call', 'Code': callCode, 'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
+                callCode = re.search('<a href="https://www.nasdaq.com/symbol/'+ ticker.lower() +'/option-chain/(.*)-'+ ticker.lower())
+                writer.writerow({'Type': 'Call', 'Code': callCode.group(1), 'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
     else: print ('Already have call data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
 
 
@@ -117,8 +117,8 @@ def get_put_data(ticker, dateID, optionDateFullList):
                 openInt = row.findAll('td')[15].text
                 strike = row.findAll('td')[8].text
                 putAnchorText = row.findAll('a')[1]
-                putCode = re.search('<a href="https://www.nasdaq.com/symbol/aapl/option-chain/(.*)-aapl', str(putAnchorText))
-                writer.writerow({'Type': 'Put', 'Code': putCode, 'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt,'Strike': strike })
+                putCode = re.search('<a href="https://www.nasdaq.com/symbol/'+ ticker.lower() +'/option-chain/(.*)-'+ ticker.lower(), str(putAnchorText))
+                writer.writerow({'Type': 'Put', 'Code': putCode.group(1), 'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt,'Strike': strike })
     else: print ('Already have put data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
 
 def get_call_and_put_data(ticker, dateID, optionDateFullList):
@@ -172,8 +172,8 @@ def get_call_and_put_data(ticker, dateID, optionDateFullList):
                 openInt = row.findAll('td')[6].text
                 strike = row.findAll('td')[8].text
                 callAnchorText = row.findAll('a')[0]
-                callCode = re.search('<a href="https://www.nasdaq.com/symbol/aapl/option-chain/(.*)-aapl', str(callAnchorText))
-                writer.writerow({'Type': 'Call', 'Code': callCode, 'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
+                callCode = re.search('<a href="https://www.nasdaq.com/symbol/'+ ticker.lower() +'/option-chain/(.*)-'+ ticker.lower(), str(callAnchorText))
+                writer.writerow({'Type': 'Call', 'Code': callCode.group(1), 'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
     else: print ('Already have call data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
 
     if not os.path.exists('option_dfs/' + ticker.upper() + '/puts/'+ ticker.upper()+'_put_'+ optionDateFullList[dateID-1][0] + '.csv'):
@@ -192,8 +192,8 @@ def get_call_and_put_data(ticker, dateID, optionDateFullList):
                 openInt = row.findAll('td')[15].text
                 strike = row.findAll('td')[8].text
                 putAnchorText = row.findAll('a')[1]
-                putCode = re.search('<a href="https://www.nasdaq.com/symbol/aapl/option-chain/(.*)-aapl', str(putAnchorText))
-                writer.writerow({'Type': 'Put', 'Code':putCode,'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
+                putCode = re.search('<a href="https://www.nasdaq.com/symbol/'+ ticker.lower() +'/option-chain/(.*)-'+ ticker.lower(), str(putAnchorText))
+                writer.writerow({'Type': 'Put', 'Code':putCode.group(1),'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
     else: print ('Already have put data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
 
 
