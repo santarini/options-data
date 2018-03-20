@@ -144,3 +144,39 @@ Next
     
 
 End Sub
+
+Sub formatDataFrames()
+
+'arrange columns and format columns
+    Cells.Select
+    Selection.Columns.AutoFit
+    Columns("O:O").Select
+    Selection.Cut
+    Columns("W:W").Select
+    ActiveSheet.Paste
+    Columns("N:N").Select
+    Selection.Cut
+    Columns("X:X").Select
+    ActiveSheet.Paste
+    Columns("M:M").Select
+    Selection.Cut
+    Columns("Y:Y").Select
+    ActiveSheet.Paste
+    Columns("L:L").Select
+    Selection.Cut
+    Columns("Z:Z").Select
+    ActiveSheet.Paste
+    Selection.Delete Shift:=xlToLeft
+    Columns("R:R").Select
+    Selection.Delete Shift:=xlToLeft
+    Range("A1").Select
+    
+'format numbers
+    Columns("E:H").Select
+    Selection.Style = "Currency"
+    Columns("K:O").Select
+    Selection.Style = "Currency"
+    Range("A1").Select
+
+
+End Sub
