@@ -4,6 +4,7 @@ import os
 import requests
 import bs4 as bs
 import csv
+import re
 
 def find_date_index(ticker, optionType):
     response = requests.get('https://www.nasdaq.com/symbol/'+ ticker.lower() +'/option-chain')
