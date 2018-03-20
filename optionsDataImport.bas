@@ -203,6 +203,8 @@ Dim Json As Object
 Dim Dict As New Dictionary
 Dim Rng As Range
 Dim Cell As Range
+Dim RowCount As Integer
+
 
 Dict.CompareMode = CompareMethod.TextCompare
 Dict("A") = Ticker
@@ -247,7 +249,17 @@ For Each Cell In Rng
     End If
 Next Cell
 
-Range("V1") = latestPrice
+Range("A2").Select
+Range(Selection, Selection.End(xlDown)).Select
+RowCount = Selection.Rows.Count
+
+Range("V1") = "Latest Price"
+Range("W1") = "Date"
+Range("V2") = latestPrice
+Range("W2") = Date
+
+Range("V2:W2").Select
+Selection.AutoFill Destination:=Range("V1:W" & RowCount)
 
 End Function
 
