@@ -136,6 +136,7 @@ For Each colCell In TrgtColumnRng
             ActiveSheet.Paste
             Application.CutCopyMode = False
             Call formateDataFrames
+            Call pricingData(Ticker)
             Range("A1").Select
         End If
         WB.Close
@@ -167,6 +168,7 @@ Function formatDataFrames()
     Selection.Cut
     Columns("Z:Z").Select
     ActiveSheet.Paste
+    Columns("L:O").Select
     Selection.Delete Shift:=xlToLeft
     Columns("R:R").Select
     Selection.Delete Shift:=xlToLeft
@@ -178,7 +180,66 @@ Function formatDataFrames()
     Columns("K:O").Select
     Selection.Style = "Currency"
     Range("A1").Select
+    Range("A1:U1").Select
+    Selection.Font.Bold = True
 
 
 End Function
 
+Function pricingData(Ticker As String)
+
+
+Application.ScreenUpdating = False
+
+Dim Ticker As String
+Dim latestPrice As Variant
+Dim Json As Object
+Dim Dict As New Dictionary
+Dim Rng As Range
+Dim Cell As Range
+
+Dict.CompareMode = CompareMethod.TextCompare
+Dict("A") = Ticker
+
+'fetch the url
+Set MyRequest = CreateObject("WinHttp.WinHttpRequest.5.1")
+MyRequest.Open "GET", "https://api.iextrading.com/1.0/stock/market/batch?symbols=" & Ticker & "&types=company,quote"
+MyRequest.Send
+
+Set Json = JsonConverter.ParseJson(MyRequest.ResponseText)
+
+latestPrice = Json(Dict.Item("A"))("quote")("latestPrice")
+
+Set Rng = Range("K1")
+Rng.Offset(1, 0).Select
+Range(Selection, Selection.End(xlDown)).Select
+Set Rng = Selection
+
+For Each Cell In Rng
+    If Cell.Value < latestPrice Then
+        Cell.Select
+        Cell.Offset(0, -10).Resize(1, 10).Select
+        With Selection.Interior
+            .Pattern = xlSolid
+            .PatternColorIndex = xlAutomatic
+            .ThemeColor = xlThemeColorAccent6
+            .TintAndShade = 0.399975585192419
+            .PatternTintAndShade = 0
+        End With
+    End If
+    If Cell.Value > latestPrice Then
+        Cell.Select
+        Cell.Offset(0, 1).Resize(1, 9).Select
+        With Selection.Interior
+            .Pattern = xlSolid
+            .PatternColorIndex = xlAutomatic
+            .ThemeColor = xlThemeColorAccent6
+            .TintAndShade = 0.399975585192419
+            .PatternTintAndShade = 0
+        End With
+    End If
+Next Cell
+
+Range("V1") = latestPrice
+
+End Function
