@@ -64,7 +64,7 @@ def get_call_data(ticker, dateID, optionDateFullList):
         soup = bs.BeautifulSoup(response.text, 'lxml')
         calltable = soup.findAll('table')[5]
         with open('option_dfs/' + ticker.upper() + '/calls/'+ ticker.upper()+'_call_'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
-            fieldnames = ['Type','Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
+            fieldnames = ['Type', 'Code','Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator = '\n')
             writer.writeheader()
             for row in calltable.findAll('tr')[1:]:
@@ -76,7 +76,9 @@ def get_call_data(ticker, dateID, optionDateFullList):
                 vol = row.findAll('td')[5].text
                 openInt = row.findAll('td')[6].text
                 strike = row.findAll('td')[8].text
-                writer.writerow({'Type': 'Call','Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
+                callAnchorText = row.findAll('a')[0]
+                callCode = re.search('<a href="https://www.nasdaq.com/symbol/aapl/option-chain/(.*)-aapl', str(callAnchorText))
+                writer.writerow({'Type': 'Call', 'Code': callCode, 'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
     else: print ('Already have call data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
 
 
@@ -101,7 +103,7 @@ def get_put_data(ticker, dateID, optionDateFullList):
         soup = bs.BeautifulSoup(response.text, 'lxml')
         puttable = soup.findAll('table')[5]
         with open('option_dfs/' + ticker.upper() + '/puts/'+ ticker.upper()+'_put_'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
-            fieldnames = ['Type','Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
+            fieldnames = ['Type', 'Code','Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator = '\n')
             writer.writeheader()
             for row in puttable.findAll('tr')[1:]:
@@ -113,7 +115,9 @@ def get_put_data(ticker, dateID, optionDateFullList):
                 vol = row.findAll('td')[14].text
                 openInt = row.findAll('td')[15].text
                 strike = row.findAll('td')[8].text
-                writer.writerow({'Type': 'Put','Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt,'Strike': strike })
+                putAnchorText = row.findAll('a')[1]
+                putCode = re.search('<a href="https://www.nasdaq.com/symbol/aapl/option-chain/(.*)-aapl', str(putAnchorText))
+                writer.writerow({'Type': 'Put', 'Code': putCode, 'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt,'Strike': strike })
     else: print ('Already have put data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
 
 def get_call_and_put_data(ticker, dateID, optionDateFullList):
@@ -154,7 +158,7 @@ def get_call_and_put_data(ticker, dateID, optionDateFullList):
     if not os.path.exists('option_dfs/' + ticker.upper() + '/calls/'+ ticker.upper()+'_call_'+ optionDateFullList[dateID-1][0] + '.csv'):
         print("Getting Call data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
         with open('option_dfs/' + ticker.upper() + '/calls/'+ ticker.upper()+'_call_'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
-            fieldnames = ['Type','Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
+            fieldnames = ['Type', 'Code', 'Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator = '\n')
             writer.writeheader()
             for row in callputtable.findAll('tr')[1:]:
@@ -166,13 +170,15 @@ def get_call_and_put_data(ticker, dateID, optionDateFullList):
                 vol = row.findAll('td')[5].text
                 openInt = row.findAll('td')[6].text
                 strike = row.findAll('td')[8].text
-                writer.writerow({'Type': 'Call','Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
+                callAnchorText = row.findAll('a')[0]
+                callCode = re.search('<a href="https://www.nasdaq.com/symbol/aapl/option-chain/(.*)-aapl', str(callAnchorText))
+                writer.writerow({'Type': 'Call', 'Code': callCode, 'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
     else: print ('Already have call data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
 
     if not os.path.exists('option_dfs/' + ticker.upper() + '/puts/'+ ticker.upper()+'_put_'+ optionDateFullList[dateID-1][0] + '.csv'):
         print("Getting Put data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
         with open('option_dfs/' + ticker.upper() + '/puts/'+ ticker.upper()+'_put_'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
-            fieldnames = ['Type','Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
+            fieldnames = ['Type', 'Code', 'Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator = '\n')
             writer.writeheader()
             for row in callputtable.findAll('tr')[1:]:
@@ -184,7 +190,9 @@ def get_call_and_put_data(ticker, dateID, optionDateFullList):
                 vol = row.findAll('td')[14].text
                 openInt = row.findAll('td')[15].text
                 strike = row.findAll('td')[8].text
-                writer.writerow({'Type': 'Put','Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
+                putAnchorText = row.findAll('a')[1]
+                putCode = re.search('<a href="https://www.nasdaq.com/symbol/aapl/option-chain/(.*)-aapl', str(putAnchorText))
+                writer.writerow({'Type': 'Put', 'Code':putCode,'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
     else: print ('Already have put data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
 
 
