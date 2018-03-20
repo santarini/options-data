@@ -182,6 +182,13 @@ Function formatDataFrames()
     Range("A1").Select
     Range("A1:U1").Select
     Selection.Font.Bold = True
+    
+'replace blank cells with zeros
+    Cells.Select
+    Range("AD16").Activate
+    Selection.Replace What:="", Replacement:="0", LookAt:=xlPart, _
+        SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
+        ReplaceFormat:=False
 
 
 End Function
@@ -229,7 +236,7 @@ For Each Cell In Rng
     End If
     If Cell.Value > latestPrice Then
         Cell.Select
-        Cell.Offset(0, 1).Resize(1, 10).Select
+        Cell.Offset(0, 1).Resize(1, 9).Select
         With Selection.Interior
             .Pattern = xlSolid
             .PatternColorIndex = xlAutomatic
@@ -241,6 +248,129 @@ For Each Cell In Rng
 Next Cell
 
 Range("V1") = latestPrice
-Range("w1") = Date()
+
+End Function
+
+Function PopulateSummaryPageCall()
+
+Dim Sht As Worksheet
+
+Set Sht = ActiveSheet
+
+Range("A2:D2").Select
+Range(Selection, Selection.End(xlDown)).Select
+Selection.Copy
+
+Worksheets("Summary").Activate
+Range("A1").Select
+If IsEmpty(Range("A1").Offset(1, 0)) = False Then
+    Selection.End(xlDown).Select
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+Else
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+End If
+
+
+
+
+
+Sht.Activate
+Range("K2").Select
+Range(Selection, Selection.End(xlDown)).Select
+Selection.Copy
+
+Worksheets("Summary").Activate
+Range("E1").Select
+If IsEmpty(Range("E1").Offset(1, 0)) = False Then
+    Selection.End(xlDown).Select
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+Else
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+End If
+
+
+
+
+Sht.Activate
+Range("E2:J2").Select
+Range(Selection, Selection.End(xlDown)).Select
+Selection.Copy
+
+Worksheets("Summary").Activate
+Range("F1").Select
+If IsEmpty(Range("F1").Offset(1, 0)) = False Then
+    Selection.End(xlDown).Select
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+Else
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+End If
+
+
+
+
+Sht.Activate
+Range("V2:W2").Select
+Range(Selection, Selection.End(xlDown)).Select
+Selection.Copy
+
+Worksheets("Summary").Activate
+Range("L1").Select
+If IsEmpty(Range("L1").Offset(1, 0)) = False Then
+    Selection.End(xlDown).Select
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+Else
+    Selection.Offset(1, 0).Select
+    ActiveSheet.Paste
+End If
+
+End Function
+Function PopulateSummaryPagePut()
+
+Dim Sht As Worksheet
+
+Set Sht = ActiveWorksheet
+
+
+Worksheets("Summary").Activate
+
+
+
+
+
+End Function
+
+
+Function CreateSummaryPage()
+
+Sheets.Add.Name = "Summary"
+
+Range("A1") = "Type"
+Range("B1") = "Code"
+Range("A2") = "Holder"
+Range("C1") = "Ticker"
+Range("A2") = "Holder"
+Range("D1") = "Expiry"
+Range("A2") = "Holder"
+Range("E1") = "Strike"
+Range("F1") = "Last"
+Range("G1") = "Change"
+Range("H1") = "Bid"
+Range("I1") = "Ask"
+Range("J1") = "Vol"
+Range("K1") = "Open Interest"
+Range("L1") = "Latest Price"
+Range("M1") = "Date"
+Range("A1:M1").Select
+Selection.Font.Bold = True
+Range("A2") = "Holder"
+Range("A2").Select
+Selection.AutoFill Destination:=Range("A2:M2"), Type:=xlFillDefault
 
 End Function
