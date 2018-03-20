@@ -135,6 +135,7 @@ For Each colCell In TrgtColumnRng
             Range("L1").Select
             ActiveSheet.Paste
             Application.CutCopyMode = False
+            Call formateDataFrames
             Range("A1").Select
         End If
         WB.Close
@@ -145,7 +146,7 @@ Next
 
 End Sub
 
-Sub formatDataFrames()
+Function formatDataFrames()
 
 'arrange columns and format columns
     Cells.Select
@@ -179,4 +180,5 @@ Sub formatDataFrames()
     Range("A1").Select
 
 
-End Sub
+End Function
+
