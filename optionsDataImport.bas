@@ -6,6 +6,8 @@ Sub countChildFolders()
     Dim folder As Object
     Dim subfolders As Object
     
+    Application.DisplayAlerts = False
+    
     Sheets.Add.Name = "PathSet"
     
     Set Rng = Range("A1")
@@ -56,6 +58,8 @@ Sub countChildFolders()
     Next i
     
     Columns(1).EntireColumn.Delete
+    
+    ActiveWorkbook.Worksheets(Worksheets.Count).Delete
     
 End Sub
 Sub pickles()
@@ -140,4 +144,3 @@ Next
     
 
 End Sub
-
