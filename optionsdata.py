@@ -31,4 +31,8 @@ if not os.path.exists('option_dfs/' + ticker.upper() + '/'+ ticker + '.csv'):
             ask = row.findAll('td')[4].text
             vol = row.findAll('td')[5].text
             openInt = row.findAll('td')[6].text
+            callAnchorText = row.findAll('a')[0]
+            putAnchorText = row.findAll('a')[1]
+            callCode = re.search('<a href="https://www.nasdaq.com/symbol/aapl/option-chain/(.*)-aapl', str(callAnchorText))
+            putCode = re.search('<a href="https://www.nasdaq.com/symbol/aapl/option-chain/(.*)-aapl', str(putAnchorText))
             writer.writerow({'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt})
