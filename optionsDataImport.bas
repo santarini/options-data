@@ -61,6 +61,10 @@ Sub countChildFolders()
     
     ActiveWorkbook.Worksheets(Worksheets.Count).Delete
     
+    Call CreateSummaryPage
+    
+    Worksheets("PathSet").Activate
+    
 End Sub
 Sub pickles()
 
@@ -253,12 +257,12 @@ RowCount = Selection.Rows.Count
 
 Range("V1") = "Latest Price"
 Range("W1") = "Date"
-Range("V2") = latestPrice
-Range("W2") = Date
+Range("V2:V3") = latestPrice
+Range("W2:W3") = Date
 
-Range("V2:W2").Select
-Range("V2:W" & RowCount).Select
+Range("V2:W3").Select
 Selection.AutoFill Destination:=Range("V2:W" & RowCount)
+Range("V2:W" & RowCount).Select
 
 End Function
 
@@ -267,6 +271,8 @@ Function PopulateSummaryPageCall()
 Dim Sht As Worksheet
 
 Set Sht = ActiveSheet
+
+Application.CutCopyMode = False
 
 'Type to Epxiry
 
@@ -339,12 +345,16 @@ Else
     ActiveSheet.Paste
 End If
 
+Sht.Activate
+
 End Function
 Function PopulateSummaryPagePut()
 
 Dim Sht As Worksheet
 
 Set Sht = ActiveSheet
+
+Application.CutCopyMode = False
 
 'Option Type
 
@@ -471,6 +481,8 @@ Else
     ActiveSheet.Paste
 End If
 
+Sht.Activate
+
 End Function
 Function CreateSummaryPage()
 
@@ -480,7 +492,6 @@ Range("A1") = "Type"
 Range("B1") = "Code"
 Range("C1") = "Ticker"
 Range("D1") = "Expiry"
-Range("A2") = "Holder"
 Range("E1") = "Strike"
 Range("F1") = "Last"
 Range("G1") = "Change"
@@ -492,7 +503,5 @@ Range("L1") = "Latest Price"
 Range("M1") = "Date"
 Range("A1:M1").Select
 Selection.Font.Bold = True
-Range("A2") = "Holder"
-Range("A2").Select
 
 End Function
