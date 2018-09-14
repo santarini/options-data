@@ -51,11 +51,26 @@ with open("optionTickers.csv") as csvfile:
                 soup = bs.BeautifulSoup(response.text, 'lxml')
                 calltable = soup.findAll('table')[2]
                 with open('option_dfs/' + ticker.upper() + '/calls/'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
-                    fieldnames = ['Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
+                    fieldnames = ['Ticker',
+                                  'Expiry',
+                                  'Last',
+                                  'Change',
+                                  'Bid',
+                                  'Ask',
+                                  'Vol',
+                                  'Open Interest',
+                                  'Strike',
+                                  'Code',
+                                  'HREF'
+                                  ]
                     writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator = '\n')
                     writer.writeheader()
                     for row in calltable.findAll('tr')[1:]:
                         expiry = row.findAll('td')[0].text
+                        expiryAnchor = row.findAll('a')[0]
+                        optionHREF = expiryAnchor['href']
+                        optionCode = expiryAnchor['href'].split('https://www.nasdaq.com/symbol/' + ticker.lower() + '/option-chain/')[1]
+                        optionCode = optionCode.split('-')[0]
                         last = row.findAll('td')[1].text
                         chg = row.findAll('td')[2].text
                         bid = row.findAll('td')[3].text
@@ -63,8 +78,20 @@ with open("optionTickers.csv") as csvfile:
                         vol = row.findAll('td')[5].text
                         openInt = row.findAll('td')[6].text
                         strike = row.findAll('td')[8].text
-                        writer.writerow({'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
-            else: print ('Already have call data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
+                        writer.writerow({'Ticker': ticker.upper(),
+                                         'Expiry': expiry,
+                                         'Last': last,
+                                         'Change': chg,
+                                         'Bid': bid,
+                                         'Ask': ask,
+                                         'Vol': vol,
+                                         'Open Interest': openInt,
+                                         'Strike': strike,
+                                         'Code': optionCode,
+                                         'HREF': optionHREF
+                                         })
+            else:
+                print ('Already have call data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
 
             #GET PUT DATA
             #create source folder if it doesnt exist yet
@@ -87,11 +114,26 @@ with open("optionTickers.csv") as csvfile:
                 soup = bs.BeautifulSoup(response.text, 'lxml')
                 puttable = soup.findAll('table')[2]
                 with open('option_dfs/' + ticker.upper() + '/puts/'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
-                    fieldnames = ['Ticker', 'Expiry', 'Last', 'Change', 'Bid', 'Ask', 'Vol', 'Open Interest', 'Strike']
+                    fieldnames = ['Ticker',
+                                  'Expiry',
+                                  'Last',
+                                  'Change',
+                                  'Bid',
+                                  'Ask',
+                                  'Vol',
+                                  'Open Interest',
+                                  'Strike',
+                                  'Code',
+                                  'HREF'
+                                  ]
                     writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator = '\n')
                     writer.writeheader()
                     for row in puttable.findAll('tr')[1:]:
-                        expiry = row.findAll('td')[9].text
+                        expiry = row.findAll('td')[0].text
+                        expiryAnchor = row.findAll('a')[0]
+                        optionHREF = expiryAnchor['href']
+                        optionCode = expiryAnchor['href'].split('https://www.nasdaq.com/symbol/' + ticker.lower() + '/option-chain/')[1]
+                        optionCode = optionCode.split('-')[0]
                         last = row.findAll('td')[10].text
                         chg = row.findAll('td')[11].text
                         bid = row.findAll('td')[12].text
@@ -99,7 +141,18 @@ with open("optionTickers.csv") as csvfile:
                         vol = row.findAll('td')[14].text
                         openInt = row.findAll('td')[15].text
                         strike = row.findAll('td')[8].text
-                        writer.writerow({'Ticker': ticker.upper(),'Expiry': expiry,'Last': last,'Change': chg,'Bid': bid,'Ask': ask,'Vol': vol,'Open Interest': openInt, 'Strike': strike})
+                        writer.writerow({'Ticker': ticker.upper(),
+                                         'Expiry': expiry,
+                                         'Last': last,
+                                         'Change': chg,
+                                         'Bid': bid,
+                                         'Ask': ask,
+                                         'Vol': vol,
+                                         'Open Interest': openInt,
+                                         'Strike': strike,
+                                         'Code': optionCode,
+                                         'HREF': optionHREF
+                                         })
             else:
                 print ('Already have put data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
             i +=1
