@@ -60,21 +60,33 @@ For FileNumber = 1 To Count 'you can change count to a constant for sample runs
     
     'copy its contents
     
-    WB.Activate
-    Range("A1").Select
-    Range(Selection, Selection.End(xlToRight)).Select
-    Range(Selection, Selection.End(xlDown)).Select
-    Selection.Copy
-
-    'activate DataSet wrksht and paste data into it
-    MainWB.Activate
-    Worksheets("DataSet").Activate
-    If IsEmpty(Range("A1")) = True Then
+    If FileNumber = 1 Then
+        WB.Activate
+        Range("A1").Select
+        Range(Selection, Selection.End(xlToRight)).Select
+        Selection.Copy
+        MainWB.Activate
+        Worksheets("DataSet").Activate
         Range("A1").Select
         ActiveSheet.Paste
         Range("A1").Select
-    Else
+    End If
+    WB.Activate
+    Range("A1").Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    Selection.Offset(1, 0).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.Copy
+    
+    'activate DataSet wrksht and paste data into it
+    MainWB.Activate
+    Worksheets("DataSet").Activate
+    If IsEmpty(Range("A2")) = True Then
+        Range("A2").Select
+        ActiveSheet.Paste
         Range("A1").Select
+    Else
+        Range("A2").Select
         Selection.End(xlDown).Select
         Selection.Offset(1, 0).Select
         ActiveSheet.Paste
@@ -87,6 +99,7 @@ For FileNumber = 1 To Count 'you can change count to a constant for sample runs
     'Worksheets("PathSet").Activate
     
     Worksheets("PathSet").Activate
+    Rng.Font.Strikethrough = True
     Rng.Offset(1, 0).Select
     Set Rng = ActiveCell
     
