@@ -104,6 +104,10 @@ For FileNumber = 1 To Count 'you can change count to a constant for sample runs
     Set Rng = ActiveCell
     
 Next FileNumber
+
+'clean up
+MainWB.Activate
+Worksheets("DataSet").Columns("A:L").AutoFit
                                         
 'tell me how long it took
 'SecondsElapsed = Round(Timer - StartTime, 2)
