@@ -33,17 +33,18 @@ with open("optionTickers.csv") as csvfile:
             ##GET CALL DATA
             #create source folder if it doesnt exist yet
             if not os.path.exists('option_dfs'):
-                print("Creating Option DFS Folder")
+                print("Creating 'option_dfs' Folder")
                 os.makedirs('option_dfs')
 
             if not os.path.exists('option_dfs/' + ticker.upper() + '_calls_'+ optionDateFullList[dateID-1][0] + '.csv'):
-                print("Getting Call data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
+                print("Getting Call data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0].replace('_',' '))
                 response = requests.get('https://www.nasdaq.com/symbol/' + ticker + '/option-chain?money=all&dateindex='+ str(dateID-1))
                 soup = bs.BeautifulSoup(response.text, 'lxml')
                 calltable = soup.findAll('table')[2]
                 with open('option_dfs/' + ticker.upper() + '_calls_'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
                     fieldnames = ['Ticker',
                                   'Expiry',
+                                  'Type',
                                   'Last',
                                   'Change',
                                   'Bid',
@@ -71,6 +72,7 @@ with open("optionTickers.csv") as csvfile:
                         strike = row.findAll('td')[8].text
                         writer.writerow({'Ticker': ticker.upper(),
                                          'Expiry': expiry,
+                                         'Type':'Call',
                                          'Last': last,
                                          'Change': chg,
                                          'Bid': bid,
@@ -81,9 +83,9 @@ with open("optionTickers.csv") as csvfile:
                                          'Code': optionCode,
                                          'HREF': optionHREF
                                          })
-                    print("Finished Call data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
+                    print("Finished Call data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0].replace('_',' '))
             else:
-                print ('Already have Call data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
+                print ('Already have Call data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0].replace('_',' '))
 
             #GET PUT DATA
             #create source folder if it doesnt exist yet
@@ -92,13 +94,14 @@ with open("optionTickers.csv") as csvfile:
                 os.makedirs('option_dfs')
 
             if not os.path.exists('option_dfs/' + ticker.upper() + '_puts_'+ optionDateFullList[dateID-1][0] + '.csv'):
-                print("Getting Put data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
+                print("Getting Put data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0].replace('_',' '))
                 response = requests.get('https://www.nasdaq.com/symbol/' + ticker + '/option-chain?money=all&dateindex='+ str(dateID-1))
                 soup = bs.BeautifulSoup(response.text, 'lxml')
                 puttable = soup.findAll('table')[2]
                 with open('option_dfs/' + ticker.upper() + '_puts_'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
                     fieldnames = ['Ticker',
                                   'Expiry',
+                                  'Type',
                                   'Last',
                                   'Change',
                                   'Bid',
@@ -126,6 +129,7 @@ with open("optionTickers.csv") as csvfile:
                         strike = row.findAll('td')[8].text
                         writer.writerow({'Ticker': ticker.upper(),
                                          'Expiry': expiry,
+                                         'Type':'Call',
                                          'Last': last,
                                          'Change': chg,
                                          'Bid': bid,
@@ -136,7 +140,7 @@ with open("optionTickers.csv") as csvfile:
                                          'Code': optionCode,
                                          'HREF': optionHREF
                                          })
-                    print("Finished Put data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
+                    print("Finished Put data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0].replace('_',' '))
             else:
-                print ('Already have Put data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
+                print ('Already have Put data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0].replace('_',' '))
             i +=1
