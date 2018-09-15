@@ -36,21 +36,12 @@ with open("optionTickers.csv") as csvfile:
                 print("Creating Option DFS Folder")
                 os.makedirs('option_dfs')
 
-            #create sub folder in source folder if it doesnt exist yet
-            if not os.path.exists('option_dfs/' + ticker.upper()):
-                print("Creating " + ticker.upper() + " Folder")
-                os.makedirs('option_dfs/' + ticker.upper())
-
-            if not os.path.exists('option_dfs/' + ticker.upper() + '/calls'):
-                print("Creating " + ticker.upper() + " Calls Folder")
-                os.makedirs('option_dfs/' + ticker.upper()+ '/calls')
-
-            if not os.path.exists('option_dfs/' + ticker.upper() + '/calls/'+ optionDateFullList[dateID-1][0] + '.csv'):
+            if not os.path.exists('option_dfs/' + ticker.upper() + '_calls_'+ optionDateFullList[dateID-1][0] + '.csv'):
                 print("Getting Call data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
                 response = requests.get('https://www.nasdaq.com/symbol/' + ticker + '/option-chain?money=all&dateindex='+ str(dateID-1))
                 soup = bs.BeautifulSoup(response.text, 'lxml')
                 calltable = soup.findAll('table')[2]
-                with open('option_dfs/' + ticker.upper() + '/calls/'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
+                with open('option_dfs/' + ticker.upper() + '_calls_'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
                     fieldnames = ['Ticker',
                                   'Expiry',
                                   'Last',
@@ -90,8 +81,9 @@ with open("optionTickers.csv") as csvfile:
                                          'Code': optionCode,
                                          'HREF': optionHREF
                                          })
+                    print("Finished Call data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
             else:
-                print ('Already have call data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
+                print ('Already have Call data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
 
             #GET PUT DATA
             #create source folder if it doesnt exist yet
@@ -99,21 +91,12 @@ with open("optionTickers.csv") as csvfile:
                 print("Creating Option DFS Folder")
                 os.makedirs('option_dfs')
 
-            #create sub folder in source folder if it doesnt exist yest
-            if not os.path.exists('option_dfs/' + ticker.upper()):
-                print("Creating " + ticker.upper() + " Folder")
-                os.makedirs('option_dfs/' + ticker.upper())
-
-            if not os.path.exists('option_dfs/' + ticker.upper() + '/puts'):
-                print("Creating " + ticker.upper() + " Puts Folder")
-                os.makedirs('option_dfs/' + ticker.upper()+ '/puts')
-
-            if not os.path.exists('option_dfs/' + ticker.upper() + '/puts/'+ optionDateFullList[dateID-1][0] + '.csv'):
+            if not os.path.exists('option_dfs/' + ticker.upper() + '_puts_'+ optionDateFullList[dateID-1][0] + '.csv'):
                 print("Getting Put data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
                 response = requests.get('https://www.nasdaq.com/symbol/' + ticker + '/option-chain?money=all&dateindex='+ str(dateID-1))
                 soup = bs.BeautifulSoup(response.text, 'lxml')
                 puttable = soup.findAll('table')[2]
-                with open('option_dfs/' + ticker.upper() + '/puts/'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
+                with open('option_dfs/' + ticker.upper() + '_puts_'+ optionDateFullList[dateID-1][0] + '.csv', 'a') as csvfile:
                     fieldnames = ['Ticker',
                                   'Expiry',
                                   'Last',
@@ -153,6 +136,7 @@ with open("optionTickers.csv") as csvfile:
                                          'Code': optionCode,
                                          'HREF': optionHREF
                                          })
+                    print("Finished Put data for "+ ticker.upper() + " " + optionDateFullList[dateID-1][0])
             else:
-                print ('Already have put data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
+                print ('Already have Put data for ' + ticker.upper() +" "+ optionDateFullList[dateID-1][0])
             i +=1
