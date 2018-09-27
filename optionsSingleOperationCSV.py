@@ -10,7 +10,8 @@ with open("optionTickers.csv") as csvfile:
     for row in reader:
         ticker = (row['Ticker'])
         print(ticker)
-        response = requests.get('https://www.nasdaq.com/symbol/' + ticker +'/option-chain')
+        hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11'}
+        response = requests.get('https://www.nasdaq.com/symbol/' + ticker +'/option-chain', headers=hdr)
         soup = bs.BeautifulSoup(response.text, 'lxml')
         optiondatestring = soup.find("div", {"id": "OptionsChain-dates"}).text
         optiondatestring = optiondatestring.lstrip()
