@@ -71,3 +71,7 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 > UAA_puts_jan_2020.csv
 
+Short term solution: Skip to next step in VBA and move onto next step
+
+Long term solution: create error handler to detect to if blank csv. figure out whats causing blank csv to begin with.
+
