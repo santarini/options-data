@@ -34,3 +34,17 @@ CSV reader
 ## License
 
 This project is licensed under the MIT License - see the LICENSE.md file for details
+
+
+## Errors
+
+Python: 
+
+Getting Call data for SAM Near 20Term
+
+Finished Call data for SAM Near 20Term
+
+Getting Put data for SAM Near 20Term
+
+Finished Put data for SAM Near 20Term
+
