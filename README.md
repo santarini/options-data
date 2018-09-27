@@ -12,7 +12,7 @@ If a stock has exhibited a steady growth rate then we assume that we can forecas
 
 <b>Assumption 2:</b>
 
-An option contract’s strike and premium at a specific expiration are indicator of the market’s expectation of the stock’s price at that time.
+An option contract’s strike and premium at a specific expiration are an indicator of the market’s expectation of the stock’s price at that time.
 
 <b>Hypothesis:</b>
 
