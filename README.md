@@ -4,6 +4,21 @@ This is a repo of Python 3 programs that use requests and beautiful soup to navi
 
 Both <a href="https://github.com/santarini/options-data/blob/master/optionsFull.py">optionsFull.py</a> and <a href="https://github.com/santarini/options-data/blob/master/optionsFullMass.py">optionsFullMass.py</a> are independent fully working programs. As is <a href="https://github.com/santarini/options-data/blob/master/optionsDataFromCSV.py">optionsDataFromCSV.py</a>
 
+# Hypothesis
+
+<b>Assumption 1:</b>
+
+If a stock has exhibited a steady growth rate then we assume that we can forecast its price at future periods given the growth rate exhibited over previous periods.
+
+<b>Assumption 2:</b>
+
+An option contract’s strike and premium at a specific expiration are indicator of the market’s expectation of the stock’s price at that time.
+
+<b>Hypothesis:</b>
+
+Given assumptions 1 and 2, if the forecasted price exceeds the markets expected price, a mispricing exists.
+
+
 # Contents
 
 ###### optiondates.py
