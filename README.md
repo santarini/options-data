@@ -40,6 +40,16 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 Python: 
 
+- [ ] Near Term Error
+
+	
+> Getting Call data for KO Near 20Term
+> Finished Call data for KO Near 20Term
+
+Getting Put data for KO Near 20Term
+
+Finished Put data for KO Near 20Term
+
 Getting Call data for SAM Near 20Term
 
 Finished Call data for SAM Near 20Term
