@@ -38,23 +38,36 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 ## Errors
 
-Python: 
+##### Python: 
 
-- [ ] Near Term Error
+- [ ] Near Term Error:
 
-	
 > Getting Call data for KO Near 20Term
+
 > Finished Call data for KO Near 20Term
 
-Getting Put data for KO Near 20Term
+> Getting Put data for KO Near 20Term
 
-Finished Put data for KO Near 20Term
+> Finished Put data for KO Near 20Term
 
-Getting Call data for SAM Near 20Term
+> Getting Call data for SAM Near 20Term
 
-Finished Call data for SAM Near 20Term
+> Finished Call data for SAM Near 20Term
+	
+> Getting Put data for SAM Near 20Term
 
-Getting Put data for SAM Near 20Term
+> Finished Put data for SAM Near 20Term
 
-Finished Put data for SAM Near 20Term
+
+##### VBA: 
+
+- [ ] Blank CSV Error:
+
+> XOM_puts_Nov_2018.csv
+
+> XOM_calls_jan_2020.csv
+
+> TPR_puts_sep_2018.csv
+
+> UAA_puts_jan_2020.csv
 
